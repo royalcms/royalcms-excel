@@ -73,8 +73,7 @@ class ExcelServiceProvider extends ServiceProvider {
         $me = $this;
 
         // Bind the PHPExcel class
-        $this->royalcms['phpexcel'] = $this->royalcms->share(function () use ($me)
-        {
+        $this->royalcms->singleton('phpexcel', function () use ($me) {
             // Set locale
             $me->setLocale();
 
@@ -94,8 +93,7 @@ class ExcelServiceProvider extends ServiceProvider {
     protected function bindCssParser()
     {
         // Bind css parser
-        $this->royalcms['excel.parsers.css'] = $this->royalcms->share(function ()
-        {
+        $this->royalcms->singleton('excel.parsers.css', function () {
             return new CssParser(
                 new CssToInlineStyles()
             );
@@ -109,8 +107,7 @@ class ExcelServiceProvider extends ServiceProvider {
     protected function bindReaders()
     {
         // Bind the laravel excel reader
-        $this->royalcms['excel.reader'] = $this->royalcms->share(function ($royalcms)
-        {
+        $this->royalcms->singleton('excel.reader', function ($royalcms) {
             return new ExcelReader(
                 $royalcms['files'],
                 $royalcms['excel.identifier']
@@ -118,8 +115,7 @@ class ExcelServiceProvider extends ServiceProvider {
         });
 
         // Bind the html reader class
-        $this->royalcms['excel.readers.html'] = $this->royalcms->share(function ($royalcms)
-        {
+        $this->royalcms->singleton('excel.readers.html', function ($royalcms) {
             return new HtmlReader(
                 $royalcms['excel.parsers.css']
             );
@@ -133,8 +129,7 @@ class ExcelServiceProvider extends ServiceProvider {
     protected function bindParsers()
     {
         // Bind the view parser
-        $this->royalcms['excel.parsers.view'] = $this->royalcms->share(function ($royalcms)
-        {
+        $this->royalcms->singleton('excel.parsers.view', function ($royalcms) {
             return new ViewParser(
                 $royalcms['excel.readers.html']
             );
@@ -148,8 +143,7 @@ class ExcelServiceProvider extends ServiceProvider {
     protected function bindWriters()
     {
         // Bind the excel writer
-        $this->royalcms['excel.writer'] = $this->royalcms->share(function ($royalcms)
-        {
+        $this->royalcms->singleton('excel.writer', function ($royalcms) {
             return new ExcelWriter(
                 $royalcms->make('response'),
                 $royalcms['files'],
@@ -165,8 +159,7 @@ class ExcelServiceProvider extends ServiceProvider {
     protected function bindExcel()
     {
         // Bind the Excel class and inject its dependencies
-        $this->royalcms['excel'] = $this->royalcms->share(function ($royalcms)
-        {
+        $this->royalcms->singleton('excel', function ($royalcms) {
             $excel = new Excel(
                 $royalcms['phpexcel'],
                 $royalcms['excel.reader'],
@@ -187,8 +180,7 @@ class ExcelServiceProvider extends ServiceProvider {
     protected function bindClasses()
     {
         // Bind the format identifier
-        $this->royalcms['excel.identifier'] = $this->royalcms->share(function ($royalcms)
-        {
+        $this->royalcms->singleton('excel.identifier', function ($royalcms) {
             return new FormatIdentifier($royalcms['files']);
         });
     }
