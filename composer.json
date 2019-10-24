@@ -26,6 +26,14 @@
     "extra": {
         "branch-alias": {
             "dev-master": "5.0-dev"
+        },
+        "royalcms": {
+            "providers": [
+                "Royalcms\\Component\\Excel\\ExcelServiceProvider"
+            ],
+            "aliases": {
+                "RC_Excel": "Royalcms\\Component\\Excel\\Facades\\Excel"
+            }
         }
     },
     "minimum-stability": "dev"
